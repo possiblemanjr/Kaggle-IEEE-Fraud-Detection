@@ -1,0 +1,71 @@
+CREATE EXTERNAL TABLE IF NOT EXISTS T1.default_preprocessed(
+    `id` string COMMENT '대출ID',
+`int_rate` double COMMENT '대출의이자율',
+`dti` double COMMENT '부채대비소득비율',
+`annual_inc` double COMMENT '연소득',
+`mo_sin_old_rev_tl_op` double COMMENT '가장오래된은행할부계좌개설이후의개월수',
+`acc_open_past_24mths` double COMMENT '최근24개월간시작된거래수',
+`loan_amnt` double COMMENT '대출액',
+`emp_length` double COMMENT '연차',
+`revol_bal` double COMMENT '총대금잔고',
+`term` double COMMENT '대출상환기간',
+`funded_amnt_inv` double COMMENT '(투자자들에의한)대출약정금액',
+`installment` double COMMENT '월별상환금액',
+`purpose` double COMMENT '대출용도',
+`total_rev_hi_lim` double COMMENT '리볼빙최대신용한도/리볼빙신용한도',
+`fico_range_low` double COMMENT 'FICO하한범위(대출시)',
+`debt_settlement_flag` double COMMENT '대출을상환한차용인이채무결제회사가협력하고있는지여부',
+`mort_acc` double COMMENT '주택담보대출계좌수',
+`total_bc_limit` double COMMENT '총카드한도금액',
+`home_ownership` double COMMENT '주택소유상태',
+`avg_cur_bal` double COMMENT '전계좌평균대금',
+`all_util` double COMMENT '신용한도잔액',
+`mths_since_recent_bc` double COMMENT '가장최근의카드계좌개설이후의개월수',
+`total_acc` double COMMENT '신용정보기록수',
+`open_acc_6m` double COMMENT '최근6개월동안진행된거래의개수',
+`bc_util` double COMMENT '신용한도대비대금비율(카드계좌)',
+`num_actv_rev_tl` double COMMENT '현재진행중인리볼빙거래의개수',
+`funded_amnt` double COMMENT '대출약정금액',
+`hardship_flag` double COMMENT '상환계획착수여부',
+`num_rev_tl_bal_gt_0` double COMMENT '잔고가0원이상인리볼빙거래의개수',
+`mths_since_recent_inq` double COMMENT '가장최근상담이후의개월수',
+`inq_last_6mths` double COMMENT '지난6개월간상담수',
+`num_il_tl` double COMMENT '할부계좌수',
+`mo_sin_old_il_acct` double COMMENT '가장오래된은행할부계좌개설이후의개월수',
+`num_rev_accts` double COMMENT '리볼빙계좌의총개수',
+`num_tl_120dpd_2m` double COMMENT '120일연체계좌수',
+`total_il_high_credit_limit` double COMMENT '할부신용한도',
+`application_type` double COMMENT '단일이용자로구성된대출인지여럿이서구성한대출인지여부',
+`revol_util` double COMMENT '대금사용비율',
+`tot_hi_cred_lim` double COMMENT '총신용한도',
+`delinq_2yrs` double COMMENT '30일이상연체발생한횟수',
+`mo_sin_rcnt_tl` double COMMENT '가장최근의계좌개설이후의개월수',
+`num_actv_bc_tl` double COMMENT '활성카드계좌수',
+`mths_since_last_record` double COMMENT '가장최근의기록으로부터의개월수',
+`percent_bc_gt_75` double COMMENT '한도75%이상사용한카드계좌비율',
+`bc_open_to_buy` double COMMENT '리볼빙카드로구매할수있는총액',
+`max_bal_bc` double COMMENT '최대청구대금',
+`grade` double COMMENT '대출등급',
+`open_rv_24m` double COMMENT '최근24개월간이루어진리볼빙거래의개수',
+`mo_sin_rcnt_rev_tl_op` double COMMENT '가장최근의리볼빙계좌개설이후의개월수',
+`pct_tl_nvr_dlq` double COMMENT '한번도연체되지않은거래의비율',
+`verification_status` double COMMENT '소득인증여부',
+`tot_cur_bal` double COMMENT '총계좌잔액',
+`total_bal_ex_mort` double COMMENT '신용한도잔액(주택담보대출제외)',
+`mths_since_last_major_derog` double COMMENT '최근90일또는더나쁜평가이후의개월수',
+`inq_fi` double COMMENT '상담수',
+`mths_since_rcnt_il` double COMMENT '최근할부계좌개설이후의개월수',
+`inq_last_12m` double COMMENT '지난12개월간상담수',
+`mths_since_last_delinq` double COMMENT '차용인의마지막연체이후의개월수',
+`num_bc_tl` double COMMENT '카드계좌수'  
+)
+    COMMENT 'default_preprocessed'
+    PARTITIONED BY(`p_yyyymm` string COMMENT 'Partition_By_Month')
+    ROW FORMAT SERDE
+'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe'
+STORED AS INPUTFORMAT
+'org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat'
+OUTPUTFORMAT
+'org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat'
+    LOCATION
+    'hdfs://${host}:8020/tmp/kb/t1/default_preprocessed';
